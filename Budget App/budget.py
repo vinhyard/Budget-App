@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import csv
 import matplotlib.pyplot as plt
+
+
 class Category:
 
     def __init__(self, name):
@@ -101,30 +103,32 @@ class Category:
             return False
         
 
-
-    def make_csv(self):
-
-        csv_file = open(f'{self.name}-ledger.csv','w')
-        csv_writer = csv.writer(csv_file)
-
-
-
-        for row in range(len(self.ledger)):
-
-            print(list(self.ledger[row].values()))
-
-            x = list(self.ledger[row].values())
-               
-            y = [x[-1],str(x[0])]
-
-            
-
-            csv_writer.writerow(y)
-        csv_file.close()
+#create a csv file of ledger transactions
+def make_csv(category):
+    #store csv file in ledger-data folder according to the category
+    csv_file = open(f'ledger-data/{category.name}-ledger.csv','w')
+    csv_writer = csv.writer(csv_file)
 
 
+    for row in range(len(category.ledger)):
 
-        return f'{self.name} CSV file successfully created'
+        print(list(category.ledger[row].values()))
+
+        x = list(category.ledger[row].values())
+           
+        y = [x[-1],"$" + str(x[0])]
+
+        
+
+        csv_writer.writerow(y)
+
+    total_balance = ["Total: ", "$"+ str(category.get_balance())]
+    csv_writer.writerow(total_balance)
+    csv_file.close()
+
+
+
+    return f'{category.name} CSV file successfully created'
 
 
   
