@@ -1,2 +1,5 @@
 # Budget-App
-Python project
+Python project that allows users to create a budget
+
+
+will implement react, flask
