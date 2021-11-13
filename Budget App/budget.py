@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt; plt.rcdefaults()
 
 
 import numpy as np
-
+import csv
 import matplotlib.pyplot as plt
 class Category:
 
@@ -67,6 +67,8 @@ class Category:
         if sufficient_funds_check >= 0:
 
         #add withdraw to ledger if user has enough funds
+
+            
             self.ledger.append({"amount": -1 * amount, "description":description})
             print("Withdraw Successful")
             return True
@@ -97,6 +99,33 @@ class Category:
         else:
             print("Transfer Failed!")
             return False
+        
+
+
+    def make_csv(self):
+
+        csv_file = open(f'{self.name}-ledger.csv','w')
+        csv_writer = csv.writer(csv_file)
+
+
+
+        for row in range(len(self.ledger)):
+
+            print(list(self.ledger[row].values()))
+
+            x = list(self.ledger[row].values())
+               
+            y = [x[-1],str(x[0])]
+
+            
+
+            csv_writer.writerow(y)
+        csv_file.close()
+
+
+
+        return f'{self.name} CSV file successfully created'
+
 
   
     

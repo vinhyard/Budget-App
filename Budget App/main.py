@@ -15,7 +15,11 @@ clothing.withdraw(100)
 auto = budget.Category("Auto")
 auto.deposit(1000, "initial deposit")
 auto.withdraw(15)
+clothing.make_csv()
 
+clothing.deposit(10000, "test")
+
+clothing.make_csv()
 print(food)
 print(clothing)
 
