@@ -1,10 +1,19 @@
+
 import math
 import matplotlib.pyplot as plt; plt.rcdefaults()
+
 
 
 import numpy as np
 import csv
 import matplotlib.pyplot as plt
+import random
+import string
+import smtplib
+
+from email.message import EmailMessage
+
+
 
 
 class Category:
@@ -15,7 +24,7 @@ class Category:
         self.name = name
 #transaction ledger to store 
         self.ledger = []
-
+        self.notes = []
 
 
 
@@ -102,6 +111,20 @@ class Category:
             print("Transfer Failed!")
             return False
         
+    def make_note(self, note):
+
+
+        self.notes.append(str(note))
+   
+        return "Noted"
+
+
+
+
+
+
+
+
 
 #create a csv file of ledger transactions
 def make_csv(category):
@@ -112,7 +135,6 @@ def make_csv(category):
 
     for row in range(len(category.ledger)):
 
-        print(list(category.ledger[row].values()))
 
         x = list(category.ledger[row].values())
            
@@ -134,12 +156,16 @@ def make_csv(category):
   
     
 
-    
+def check_notes(category):
 
   
+    print(f'Notes\n------------------')
 
+    for i in range(len(category.notes)):
+
+        print(str(i) +'. ' + str(category.notes[i]))
   
-
+    return ""
 
 def create_spend_chart(categories):
 
@@ -187,3 +213,62 @@ def create_spend_chart(categories):
 
     return "Done"  
 
+
+
+
+#send 2fa email code
+def get_email_code():
+
+
+
+    code = ''
+
+    code_length = random.randint(6, 10)
+
+    for i in range(code_length):
+
+        code += random.choice(string.ascii_letters + string.digits)
+
+        
+    return code
+
+def send_email_code(recipient):
+
+
+
+
+
+
+    email_code = get_email_code()
+
+    msg = EmailMessage()
+
+
+    msg["Subject"] = 'Email Verification Code'
+    msg.add_header('Content-Type','text/html')
+
+    msg['From'] = 'office.vinh@gmail.com'
+
+
+    msg['To'] = 'vinhyard1@gmail.com'
+    
+    content = f'<p>Your email verification code is {email_code}</p>'
+    msg.set_payload(content)
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+
+    try:
+
+        server.login('skdlknkm@gmail.com','applesauce123')
+     
+    except:
+
+        comment = 'Login Failed. Incorrect Username/Password'
+        raise TypeError(comment)
+
+    server.send_message(msg)
+
+  
+
+    server.quit()
+
+    return "Message Sent"
